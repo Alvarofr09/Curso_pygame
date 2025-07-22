@@ -8,3 +8,7 @@ class Character():
 
 	def draw(self, window):
 		pygame.draw.rect(window, constantes.COLOR_CARACTER, self.shape)
+
+	def move(self, delta_x, delta_y):
+		self.shape.x = self.shape.x + delta_x
+		self.shape.y = self.shape.y + delta_y
