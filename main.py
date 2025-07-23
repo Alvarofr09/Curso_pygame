@@ -8,7 +8,20 @@ pygame.init()
 window = pygame.display.set_mode((constantes.WIDTH_SCREEN, constantes.HEIGHT_SCREEN))
 pygame.display.set_caption("Juego de prueba")
 
-player = Character(50, 50)
+def scale_img(image, scale):
+	w = image.get_width()
+	h = image.get_height()
+	new_image = pygame.transform.scale(image, (w*scale, h*scale))
+	return new_image
+
+animations = []
+for i in range(7):
+	img = pygame.image.load(f"assets//images//characters//player//Player_{i}.png")
+	img = scale_img(img, constantes.SCALE_CHARACTER)
+	animations.append(img)
+
+
+player = Character(50, 50, animations)
 
 
 # Variables de movimineot
@@ -43,6 +56,9 @@ while(running):
 	# MOver jugador
 	player.move(delta_x, delta_y)
 
+	#Animacion de jugador
+	player.update()
+	
 	player.draw(window)
 	for event in pygame.event.get():
 		# Cerrar el juego
