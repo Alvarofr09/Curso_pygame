@@ -10,7 +10,7 @@ class Character():
 		#Almacenar la hra actual en ms
 		self.update_time = pygame.time.get_ticks()
 		self.image = animations[self.frame_index]
-		self.shape = pygame.Rect(0, 0, constantes.WIDTH_CHARACTER, constantes.HEIGHT_CHARACTER)
+		self.shape = self.image.get_rect()
 		self.shape.center = (x, y)
 
 	def update(self):
