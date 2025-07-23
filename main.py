@@ -1,5 +1,6 @@
 import constantes
 from character import Character
+from weapons import Weapon
 
 import pygame
 
@@ -14,15 +15,22 @@ def scale_img(image, scale):
 	new_image = pygame.transform.scale(image, (w*scale, h*scale))
 	return new_image
 
+# Importar imagenes
 animations = []
 for i in range(7):
 	img = pygame.image.load(f"assets//images//characters//player//Player_{i}.png")
 	img = scale_img(img, constantes.SCALE_CHARACTER)
 	animations.append(img)
 
+# Arma
+gun_image = pygame.image.load("assets//images//weapons//gun.png")
+gun_image = scale_img(gun_image, constantes.SCALE_GUN)
 
-player = Character(50, 50, animations)
+# Crear jugador
+player = Character(60, 60, animations)
 
+# Crear arma
+gun = Weapon(gun_image)
 
 # Variables de movimineot
 move_up = False
@@ -38,8 +46,8 @@ running = True
 while(running):
 	# FPS
 	clock.tick(constantes.FPS)
-
 	window.fill(constantes.COLOR_BG)
+
 	# Calcular mov jugador
 	delta_x = 0
 	delta_y = 0
@@ -58,8 +66,10 @@ while(running):
 
 	#Animacion de jugador
 	player.update()
+	gun.update(player)
 	
 	player.draw(window)
+	gun.draw(window)
 	for event in pygame.event.get():
 		# Cerrar el juego
 		if event.type == pygame.QUIT:
