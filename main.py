@@ -1,26 +1,49 @@
+import pygame
 import constantes
 from character import Character
 from weapons import Weapon
+import os
 
-import pygame
 
-pygame.init()
-
-window = pygame.display.set_mode((constantes.WIDTH_SCREEN, constantes.HEIGHT_SCREEN))
-pygame.display.set_caption("Juego de prueba")
-
+# Funciones
+# Escalar imagenes
 def scale_img(image, scale):
 	w = image.get_width()
 	h = image.get_height()
 	new_image = pygame.transform.scale(image, (w*scale, h*scale))
 	return new_image
 
+# Contar elementos
+def count_element(folder):
+	return len(os.listdir(folder))
+
+# Listar nombres elementos
+def folder_name(folder):
+	return os.listdir(folder)
+
+
+pygame.init()
+
+window = pygame.display.set_mode((constantes.WIDTH_SCREEN, constantes.HEIGHT_SCREEN))
+pygame.display.set_caption("Juego de prueba")
+
+
+
 # Importar imagenes
 animations = []
 for i in range(7):
-	img = pygame.image.load(f"assets//images//characters//player//Player_{i}.png")
+	img = pygame.image.load(f"assets//images//characters//player//player_{i}.png")
 	img = scale_img(img, constantes.SCALE_CHARACTER)
 	animations.append(img)
+
+# Enemigos
+folder_enemies = "assets/images/characters/enemies"
+enemies_types = folder_name(folder_enemies)
+animations_enemies = []
+for types in enemies_types:
+	lista_temp = []
+	ruta_temp = f"assets/images/characters/enemies/{types}"
+	num_animations = count_element(ruta_temp)
 
 # Arma
 gun_image = pygame.image.load("assets//images//weapons//gun.png")
@@ -79,7 +102,7 @@ while(running):
 	for bullet in bullet_group:
 		bullet.update()
 	
-	print(bullet_group)
+	#print(bullet_group)
 	
 	
 	player.draw(window)
