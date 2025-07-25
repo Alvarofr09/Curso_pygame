@@ -26,11 +26,18 @@ for i in range(7):
 gun_image = pygame.image.load("assets//images//weapons//gun.png")
 gun_image = scale_img(gun_image, constantes.SCALE_GUN)
 
+# Bullet
+bullet_image = pygame.image.load("assets//images//weapons//bullet.png")
+bullet_image = scale_img(bullet_image, constantes.SCALE_BULLET)
+
 # Crear jugador
 player = Character(60, 60, animations)
 
 # Crear arma
-gun = Weapon(gun_image)
+gun = Weapon(gun_image, bullet_image)
+
+#crear un grupo de sprites
+bullet_group = pygame.sprite.Group()
 
 # Variables de movimineot
 move_up = False
@@ -61,15 +68,24 @@ while(running):
 	if move_down == True:
 		delta_y = constantes.VELOZ
 
-	# MOver jugador
+	# Mover jugador
 	player.move(delta_x, delta_y)
 
 	#Animacion de jugador
 	player.update()
-	gun.update(player)
+	bullet = gun.update(player)
+	if bullet:
+		bullet_group.add(bullet)
+	for bullet in bullet_group:
+		bullet.update()
+	
+	print(bullet_group)
+	
 	
 	player.draw(window)
 	gun.draw(window)
+	for bullet in bullet_group:
+		bullet.draw(window)
 	for event in pygame.event.get():
 		# Cerrar el juego
 		if event.type == pygame.QUIT:
