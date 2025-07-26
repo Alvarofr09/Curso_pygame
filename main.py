@@ -44,6 +44,12 @@ for types in enemies_types:
 	lista_temp = []
 	ruta_temp = f"assets/images/characters/enemies/{types}"
 	num_animations = count_element(ruta_temp)
+	for i in range(num_animations):
+		img_enemy = pygame.image.load(f"{ruta_temp}//{types}_{i}.png").convert_alpha()
+		img_enemy = scale_img(img_enemy, constantes.SCLAE_ENEMY)
+		lista_temp.append(img_enemy)
+	animations_enemies.append(lista_temp)
+#print(animations_enemies)
 
 # Arma
 gun_image = pygame.image.load("assets//images//weapons//gun.png")
@@ -56,6 +62,17 @@ bullet_image = scale_img(bullet_image, constantes.SCALE_BULLET)
 # Crear jugador
 player = Character(60, 60, animations)
 
+# Crear enemigos
+goblin = Character(400, 300, animations_enemies[0])
+golem = Character(200, 200, animations_enemies[1])
+goblin_2 = Character(100, 250, animations_enemies[0])
+
+# Crear lista de enemigos
+lista_enemy = []
+lista_enemy.append(goblin)
+lista_enemy.append(golem)
+lista_enemy.append(goblin_2)
+#print(lista_enemy)
 # Crear arma
 gun = Weapon(gun_image, bullet_image)
 
@@ -96,6 +113,11 @@ while(running):
 
 	#Animacion de jugador
 	player.update()
+
+	# Animacion de enemigos
+	for ene in lista_enemy:
+		ene.update()
+
 	bullet = gun.update(player)
 	if bullet:
 		bullet_group.add(bullet)
@@ -104,8 +126,14 @@ while(running):
 	
 	#print(bullet_group)
 	
-	
+	# Dibujar Jugador
 	player.draw(window)
+
+	#Dibujar enemigos
+	for ene in lista_enemy:
+		ene.draw(window)
+
+	# Dibujar balas
 	gun.draw(window)
 	for bullet in bullet_group:
 		bullet.draw(window)
